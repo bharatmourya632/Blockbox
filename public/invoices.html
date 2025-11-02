@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices - BillFlow</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>BillFlow</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span>📊</span> Dashboard
+                </a>
+                <a href="invoices.html" class="nav-item active">
+                    <span>📄</span> Invoices
+                </a>
+                <a href="inventory.html" class="nav-item">
+                    <span>📦</span> Inventory
+                </a>
+                <a href="analytics.html" class="nav-item">
+                    <span>📈</span> Analytics
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="top-bar-content">
+                    <h1>Invoices</h1>
+                    <button class="btn btn-primary" onclick="showCreateInvoiceModal()">+ New Invoice</button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="filters">
+                    <select id="statusFilter" onchange="filterInvoices()">
+                        <option value="">All Status</option>
+                        <option value="draft">Draft</option>
+                        <option value="sent">Sent</option>
+                        <option value="paid">Paid</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Invoice #</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoicesList">
+                                <tr>
+                                    <td colspan="6" class="text-center">Loading...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Create Invoice Modal -->
+    <div id="createInvoiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Invoice</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <form id="createInvoiceForm">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" name="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Customer Email</label>
+                    <input type="email" name="customerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Customer Phone</label>
+                    <input type="tel" name="customerPhone">
+                </div>
+                <div class="form-group">
+                    <label>Customer Address</label>
+                    <textarea name="customerAddress" rows="2"></textarea>
+                </div>
+
+                <h4>Items</h4>
+                <div id="invoiceItems">
+                    <div class="invoice-item">
+                        <input type="text" placeholder="Item Name" name="itemName[]" required>
+                        <input type="number" placeholder="Quantity" name="itemQuantity[]" min="1" required>
+                        <input type="number" placeholder="Price" name="itemPrice[]" min="0" step="0.01" required>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-secondary" onclick="addItem()">+ Add Item</button>
+
+                <div class="form-group">
+                    <label>Tax Rate (%)</label>
+                    <input type="number" name="taxRate" min="0" max="100" step="0.01" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Discount</label>
+                    <input type="number" name="discount" min="0" step="0.01" value="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" name="dueDate">
+                </div>
+
+                <div class="form-group">
+                    <label>Notes</label>
+                    <textarea name="notes" rows="3"></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/invoices.js"></script>
+</body>
+</html>
